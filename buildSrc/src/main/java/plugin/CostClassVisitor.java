@@ -38,10 +38,6 @@ public class CostClassVisitor extends ClassVisitor {
       @Override
       protected void onMethodEnter() {
         if (inject) {
-          mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
-          mv.visitLdcInsn("========start=========");
-          mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println",
-              "(Ljava/lang/String;)V", false);
 
           mv.visitLdcInsn(name);
           mv.visitMethodInsn(INVOKESTATIC, "java/lang/System", "nanoTime", "()J", false);
@@ -53,6 +49,7 @@ public class CostClassVisitor extends ClassVisitor {
       @Override
       protected void onMethodExit(int opcode) {
         if (inject) {
+
           mv.visitLdcInsn(name);
           mv.visitMethodInsn(INVOKESTATIC, "java/lang/System", "nanoTime", "()J", false);
           mv.visitMethodInsn(INVOKESTATIC, "me/wangyuwei/costtime/TimeCache", "setEndTime",
@@ -65,10 +62,7 @@ public class CostClassVisitor extends ClassVisitor {
           mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println",
               "(Ljava/lang/String;)V", false);
 
-          mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
-          mv.visitLdcInsn("========end=========");
-          mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println",
-              "(Ljava/lang/String;)V", false);
+
         }
       }
     };
